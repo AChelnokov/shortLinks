@@ -1,0 +1,16 @@
+type Links {
+  short_link: String! @method(name: "getShortLink")
+  full_link: String!
+  counter: Int!
+}
+
+type Query {
+  link(short_link: String! @eq): Links @find
+  links: [Links!]! @all
+}
+
+type Mutation {
+  createLink(
+    full_link: String! @rules(apply: ["url"])
+  ): Links @field(resolver: "LinksMutator@create")
+}
